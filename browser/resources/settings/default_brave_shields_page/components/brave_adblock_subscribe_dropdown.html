@@ -1,0 +1,42 @@
+<style include="cr-shared-style settings-shared iron-flex">
+  :root {
+    --brave-primary-hover: #ff977d;
+  }
+  
+  .box {
+    width: 100%;
+  }
+
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+
+  .dropdown-item > i {
+    margin-right: 8px;
+    display: inline-block;
+    line-height: 0;
+  }
+</style>
+
+<div class="box">
+  <cr-icon-button class="icon-more-vert"
+      on-click="handleDropdownClick_"
+      focus-type="menu">
+  </cr-icon-button>
+  <cr-action-menu id="menu" role-description="simple">
+    <button class="dropdown-item" on-click="updateSubscription_">
+      <i><iron-icon icon="brave_lion:refresh"></iron-icon></i>
+      <span>$i18n{adblockUpdateNowButtonLabel}</span>
+    </button>
+    <button class="dropdown-item" on-click="viewSubscription_">
+      <i><iron-icon icon="brave_lion:code"></iron-icon></i>
+      <span>$i18n{adblockViewSourceButtonLabel}</span>
+    </button>
+    <button class="dropdown-item" on-click="deleteSubscription_">
+      <i><iron-icon icon="brave_lion:trash-can"></iron-icon></i>
+      <span>$i18n{adblockUnsubscribeButtonLabel}</span>
+    </button>
+  </cr-action-menu>
+</div>
