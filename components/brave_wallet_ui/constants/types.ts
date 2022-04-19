@@ -569,6 +569,9 @@ export enum WalletOnboardingSteps {
 export enum WalletRoutes {
   Unlock = '/crypto/unlock',
   Onboarding = '/crypto/onboarding',
+  OnboardingCreatePassword = '/crypto/onboarding/create-password',
+  OnboardingExplainRecoveryPhrase = '/crypto/onboarding/explain-recovery-phrase',
+  OnboardingBackupRecoveryPhrase = '/crypto/onboarding/backup-recovery-phrase',
   Restore = '/crypto/restore-wallet',
   Portfolio = '/crypto/portfolio',
   PortfolioSub = '/crypto/portfolio/:id?',
