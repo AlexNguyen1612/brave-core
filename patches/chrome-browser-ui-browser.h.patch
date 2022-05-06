@@ -1,8 +1,8 @@
 diff --git a/chrome/browser/ui/browser.h b/chrome/browser/ui/browser.h
-index 60795f5e596c96330201c97dc1eef9da200ac099..cd96f8c3b2aea92f308be07ec3236e82921ab9ea 100644
+index 631c30c8f153e72cd92de457d8ba6f44574edbe6..9b6acafa5cc1c133ae3c4266147921c0251df0ae 100644
 --- a/chrome/browser/ui/browser.h
 +++ b/chrome/browser/ui/browser.h
-@@ -730,6 +730,7 @@ class Browser : public TabStripModelObserver,
+@@ -738,6 +738,7 @@ class Browser : public TabStripModelObserver,
    void RunScreenAIAnnotator();
  #endif
  
