@@ -15,7 +15,6 @@
 #include "base/files/file_enumerator.h"
 #include "base/files/file_util.h"
 #include "base/guid.h"
-#include "base/task/post_task.h"
 #include "base/task/thread_pool.h"
 #include "brave/components/ipfs/blob_context_getter_factory.h"
 #include "brave/components/ipfs/buildflags/buildflags.h"
@@ -263,7 +262,7 @@ void CreateRequestForFile(
   content_type += " boundary=";
   content_type += mime_boundary;
 
-  base::PostTaskAndReplyWithResult(
+  base::ThreadPool::PostTaskAndReplyWithResult(
       FROM_HERE, {base::MayBlock(), content::BrowserThread::IO},
       base::BindOnce(&CreateResourceRequest, std::move(blob_builder_callback),
                      content_type, blob_context_getter_factory),
@@ -300,7 +299,7 @@ void CreateRequestForFileList(
   content_type += " boundary=";
   content_type += mime_boundary;
 
-  base::PostTaskAndReplyWithResult(
+  base::ThreadPool::PostTaskAndReplyWithResult(
       FROM_HERE, {base::MayBlock(), content::BrowserThread::IO},
       base::BindOnce(&CreateResourceRequest, std::move(blob_builder_callback),
                      content_type, blob_context_getter_factory),
@@ -329,7 +328,7 @@ void CreateRequestForText(const std::string& text,
   content_type += " boundary=";
   content_type += mime_boundary;
 
-  base::PostTaskAndReplyWithResult(
+  base::ThreadPool::PostTaskAndReplyWithResult(
       FROM_HERE, {base::MayBlock(), content::BrowserThread::IO},
       base::BindOnce(&CreateResourceRequest, std::move(blob_builder_callback),
                      content_type, context_factory),
