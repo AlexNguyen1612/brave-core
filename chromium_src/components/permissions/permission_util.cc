@@ -26,7 +26,7 @@ std::string PermissionUtil::GetPermissionString(
 
 // static
 bool PermissionUtil::GetPermissionType(ContentSettingsType type,
-                                       content::PermissionType* out) {
+                                       blink::PermissionType* out) {
   if (type == ContentSettingsType::BRAVE_ETHEREUM ||
       type == ContentSettingsType::BRAVE_SOLANA) {
     *out = PermissionType::WINDOW_PLACEMENT;
