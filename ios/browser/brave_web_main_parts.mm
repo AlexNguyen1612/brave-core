@@ -89,7 +89,7 @@ void BraveWebMainParts::PreCreateThreads() {
 
 void BraveWebMainParts::SetupFieldTrials() {
   base::SetRecordActionTaskRunner(
-      base::CreateSingleThreadTaskRunner({web::WebThread::UI}));
+      base::ThreadPool::CreateSingleThreadTaskRunner({web::WebThread::UI}));
 
   // Initialize FieldTrialList to support FieldTrials that use one-time
   // randomization.
