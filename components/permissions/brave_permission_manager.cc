@@ -44,4 +44,30 @@ void BravePermissionManager::ResetPermissionViaContentSetting(
       url::Origin::Create(embedding_origin).GetURL());
 }
 
+void BravePermissionManager::RequestPermissionsDeprecated(
+    const std::vector<ContentSettingsType>& permissions,
+    content::RenderFrameHost* render_frame_host,
+    const GURL& requesting_origin,
+    bool user_gesture,
+    base::OnceCallback<void(const std::vector<ContentSetting>&)> callback) {
+  RequestPermissions(permissions, render_frame_host, requesting_origin,
+                     user_gesture, std::move(callback));
+}
+
+PermissionResult BravePermissionManager::GetPermissionStatusForFrameDeprecated(
+    ContentSettingsType permission,
+    content::RenderFrameHost* render_frame_host,
+    const GURL& requesting_origin) {
+  return GetPermissionStatusForFrame(permission, render_frame_host,
+                                     requesting_origin);
+}
+
+PermissionResult BravePermissionManager::GetPermissionStatusDeprecated(
+    ContentSettingsType permission,
+    const GURL& requesting_origin,
+    const GURL& embedding_origin) {
+  return PermissionManager::GetPermissionStatusDeprecated(
+      permission, requesting_origin, embedding_origin);
+}
+
 }  // namespace permissions

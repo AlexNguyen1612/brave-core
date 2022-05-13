@@ -26,6 +26,21 @@ class BravePermissionManager : public PermissionManager {
   void ResetPermissionViaContentSetting(ContentSettingsType type,
                                         const GURL& requesting_origin,
                                         const GURL& embedding_origin);
+
+  void RequestPermissionsDeprecated(
+      const std::vector<ContentSettingsType>& permissions,
+      content::RenderFrameHost* render_frame_host,
+      const GURL& requesting_origin,
+      bool user_gesture,
+      base::OnceCallback<void(const std::vector<ContentSetting>&)> callback);
+  PermissionResult GetPermissionStatusForFrameDeprecated(
+      ContentSettingsType permission,
+      content::RenderFrameHost* render_frame_host,
+      const GURL& requesting_origin);
+
+  PermissionResult GetPermissionStatusDeprecated(ContentSettingsType permission,
+                                                 const GURL& requesting_origin,
+                                                 const GURL& embedding_origin);
 };
 
 }  // namespace permissions

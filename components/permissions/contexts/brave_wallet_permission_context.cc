@@ -170,9 +170,10 @@ void BraveWalletPermissionContext::RequestPermissions(
     return;
   }
 
-  permissions::PermissionManager* permission_manager =
+  auto* permission_manager = static_cast<permissions::BravePermissionManager*>(
       permissions::PermissionsClient::Get()->GetPermissionManager(
-          web_contents->GetBrowserContext());
+          web_contents->GetBrowserContext()));
+
   if (!permission_manager) {
     std::move(callback).Run(std::vector<ContentSetting>());
     return;
@@ -194,9 +195,9 @@ void BraveWalletPermissionContext::RequestPermissions(
 
   std::vector<ContentSettingsType> types(addresses.size(),
                                          content_settings_type);
-  permission_manager->RequestPermissions(types, rfh, origin.GetURL(),
-                                         rfh->HasTransientUserActivation(),
-                                         std::move(callback));
+  permission_manager->RequestPermissionsDeprecated(
+      types, rfh, origin.GetURL(), rfh->HasTransientUserActivation(),
+      std::move(callback));
 }
 
 // static
@@ -224,9 +225,9 @@ void BraveWalletPermissionContext::GetAllowedAccounts(
     return;
   }
 
-  permissions::PermissionManager* permission_manager =
+  auto* permission_manager = static_cast<permissions::BravePermissionManager*>(
       permissions::PermissionsClient::Get()->GetPermissionManager(
-          web_contents->GetBrowserContext());
+          web_contents->GetBrowserContext()));
   if (!permission_manager) {
     std::move(callback).Run(false, std::vector<std::string>());
     return;
@@ -240,8 +241,9 @@ void BraveWalletPermissionContext::GetAllowedAccounts(
         ContentSettingsTypeToRequestType(content_settings_type), origin,
         address, &sub_request_origin);
     if (success) {
-      PermissionResult result = permission_manager->GetPermissionStatusForFrame(
-          content_settings_type, rfh, sub_request_origin.GetURL());
+      PermissionResult result =
+          permission_manager->GetPermissionStatusForFrameDeprecated(
+              content_settings_type, rfh, sub_request_origin.GetURL());
       if (result.content_setting == CONTENT_SETTING_ALLOW) {
         allowed_accounts.push_back(address);
       }
@@ -302,9 +304,9 @@ bool BraveWalletPermissionContext::HasPermission(
   }
 
   permissions::PermissionResult result =
-      permission_manager->GetPermissionStatus(content_settings_type,
-                                              origin_wallet_address.GetURL(),
-                                              origin_wallet_address.GetURL());
+      permission_manager->GetPermissionStatusDeprecated(
+          content_settings_type, origin_wallet_address.GetURL(),
+          origin_wallet_address.GetURL());
 
   *has_permission = result.content_setting == CONTENT_SETTING_ALLOW;
   return true;
