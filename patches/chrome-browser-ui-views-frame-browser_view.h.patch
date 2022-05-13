@@ -1,10 +1,10 @@
 diff --git a/chrome/browser/ui/views/frame/browser_view.h b/chrome/browser/ui/views/frame/browser_view.h
-index 8de565da67b27be2a32856c6273274c035f0f958..897d52f891c4067b22e672da8f33b9e8fb4c0f77 100644
+index 70f50e6752091e6a2264f561321f4f34df1f8bae..eb4e40e9e1c1d770638eeca5a71922906c281ec9 100644
 --- a/chrome/browser/ui/views/frame/browser_view.h
 +++ b/chrome/browser/ui/views/frame/browser_view.h
-@@ -738,6 +738,7 @@ class BrowserView : public BrowserWindow,
+@@ -736,6 +736,7 @@ class BrowserView : public BrowserWindow,
+   void MaybeRestoreSideSearchStatePerWindow(
        const std::map<std::string, std::string>& extra_data) override;
- #endif
  
 +  BRAVE_BROWSER_VIEW_H
   private:
