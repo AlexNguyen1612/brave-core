@@ -8,6 +8,8 @@
 
 #include "components/permissions/permission_manager.h"
 
+#include <vector>
+
 namespace permissions {
 
 class BravePermissionManager : public PermissionManager {
