@@ -10,6 +10,7 @@
 #include "base/test/scoped_feature_list.h"
 #include "brave/components/brave_wallet/browser/permission_utils.h"
 #include "brave/components/brave_wallet/common/features.h"
+#include "brave/components/permissions/brave_permission_manager.h"
 #include "brave/components/permissions/contexts/brave_wallet_permission_context.h"
 #include "chrome/browser/content_settings/host_content_settings_map_factory.h"
 #include "chrome/browser/permissions/permission_manager_factory.h"
@@ -85,8 +86,8 @@ class PermissionManagerBrowserTest : public InProcessBrowserTest {
     https_server()->ServeFilesFromSourceDirectory(GetChromeTestDataDir());
     ASSERT_TRUE(https_server()->Start());
 
-    permission_manager_ =
-        PermissionManagerFactory::GetForProfile(browser()->profile());
+    permission_manager_ = static_cast<permissions::BravePermissionManager*>(
+        PermissionManagerFactory::GetForProfile(browser()->profile()));
   }
 
   PermissionRequestManager* GetPermissionRequestManager() {
@@ -106,7 +107,7 @@ class PermissionManagerBrowserTest : public InProcessBrowserTest {
   }
 
   net::EmbeddedTestServer* https_server() { return &https_server_; }
-  PermissionManager* permission_manager() { return permission_manager_; }
+  BravePermissionManager* permission_manager() { return permission_manager_; }
 
   bool IsPendingGroupedRequestsEmpty(ContentSettingsType type) {
     PermissionContextBase* context =
@@ -116,7 +117,7 @@ class PermissionManagerBrowserTest : public InProcessBrowserTest {
 
  protected:
   net::test_server::EmbeddedTestServer https_server_;
-  raw_ptr<PermissionManager> permission_manager_ = nullptr;
+  raw_ptr<BravePermissionManager> permission_manager_ = nullptr;
 
  private:
   base::test::ScopedFeatureList scoped_feature_list_;
@@ -158,7 +159,7 @@ IN_PROC_BROWSER_TEST_F(PermissionManagerBrowserTest, RequestPermissions) {
     auto observer = std::make_unique<PermissionRequestManagerObserver>(
         permission_request_manager);
 
-    permission_manager()->RequestPermissions(
+    permission_manager()->RequestPermissionsDeprecated(
         types, web_contents()->GetMainFrame(), origin.GetURL(), true,
         base::DoNothing());
 
@@ -195,7 +196,7 @@ IN_PROC_BROWSER_TEST_F(PermissionManagerBrowserTest, RequestPermissions) {
     }
 
     observer->Reset();
-    permission_manager()->RequestPermissions(
+    permission_manager()->RequestPermissionsDeprecated(
         types, web_contents()->GetMainFrame(), origin.GetURL(), true,
         base::DoNothing());
 
@@ -275,7 +276,7 @@ IN_PROC_BROWSER_TEST_F(PermissionManagerBrowserTest,
     auto observer = std::make_unique<PermissionRequestManagerObserver>(
         permission_request_manager);
 
-    permission_manager()->RequestPermissions(
+    permission_manager()->RequestPermissionsDeprecated(
         types, web_contents()->GetMainFrame(), origin.GetURL(), true,
         base::DoNothing());
 
