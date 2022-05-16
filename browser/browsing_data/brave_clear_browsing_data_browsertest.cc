@@ -182,8 +182,10 @@ class BraveClearDataOnExitTest
                                    uint64_t origin_mask) override {
     remove_data_call_count_++;
 
-    EXPECT_EQ(expected_remove_mask_, remove_mask);
-    EXPECT_EQ(expected_origin_mask_, origin_mask);
+    if (expected_remove_mask_ != 0)
+      EXPECT_EQ(expected_remove_mask_, remove_mask);
+    if (expected_origin_mask_ != 0)
+      EXPECT_EQ(expected_origin_mask_, origin_mask);
   }
 
  protected:
