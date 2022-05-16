@@ -140,7 +140,8 @@ class BraveClearDataOnExitTest
     expected_remove_data_call_count_ = count;
   }
 
-  void SetExpectedRemoveDataRemovalMasks(int remove_mask, int origin_mask) {
+  void SetExpectedRemoveDataRemovalMasks(uint64_t remove_mask,
+                                         uint64_t origin_mask) {
     expected_remove_mask_ = remove_mask;
     expected_origin_mask_ = origin_mask;
   }
@@ -170,7 +171,7 @@ class BraveClearDataOnExitTest
            chrome_browsing_data_remover::DATA_TYPE_CONTENT_SETTINGS;
   }
 
-  int GetOriginMaskAll() {
+  uint64_t GetOriginMaskAll() {
     return content::BrowsingDataRemover::ORIGIN_TYPE_PROTECTED_WEB |
            content::BrowsingDataRemover::ORIGIN_TYPE_UNPROTECTED_WEB;
   }
@@ -181,18 +182,16 @@ class BraveClearDataOnExitTest
                                    uint64_t origin_mask) override {
     remove_data_call_count_++;
 
-    if (expected_remove_mask_ != -1)
-      EXPECT_EQ(static_cast<uint64_t>(expected_remove_mask_), remove_mask);
-    if (expected_origin_mask_ != -1)
-      EXPECT_EQ(static_cast<uint64_t>(expected_origin_mask_), origin_mask);
+    EXPECT_EQ(expected_remove_mask_, remove_mask);
+    EXPECT_EQ(expected_origin_mask_, origin_mask);
   }
 
  protected:
   unsigned int browsers_count_ = 1u;
   int remove_data_call_count_ = 0;
   int expected_remove_data_call_count_ = 0;
-  int expected_remove_mask_ = -1;
-  int expected_origin_mask_ = -1;
+  uint64_t expected_remove_mask_ = 0;
+  uint64_t expected_origin_mask_ = 0;
 };
 
 IN_PROC_BROWSER_TEST_F(BraveClearDataOnExitTest, NoPrefsSet) {
