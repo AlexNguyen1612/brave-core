@@ -31,7 +31,11 @@ class MockTranslateBubbleModel : public TranslateBubbleModel {
         translation_declined_(false),
         original_language_index_on_translation_(-1),
         target_language_index_on_translation_(-1),
-        can_add_site_to_never_prompt_list_(true) {}
+        can_add_site_to_never_prompt_list_(true) {
+    DCHECK_NE(VIEW_STATE_SOURCE_LANGUAGE, view_state);
+    DCHECK_NE(VIEW_STATE_TARGET_LANGUAGE, view_state);
+    current_view_state_ = view_state;
+  }
 
   TranslateBubbleModel::ViewState GetViewState() const override {
     return current_view_state_;
@@ -182,7 +186,7 @@ class MockBraveTranslateBubbleView : public BraveTranslateBubbleView {
 
 class BraveTranslateBubbleViewTest : public ChromeViewsTestBase {
  public:
-  BraveTranslateBubbleViewTest() {}
+  BraveTranslateBubbleViewTest() = default;
 
  protected:
   void SetUp() override {
