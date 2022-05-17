@@ -40,6 +40,7 @@
 #include "content/public/test/browser_test.h"
 #include "content/public/test/browser_test_utils.h"
 #include "content/public/test/test_navigation_observer.h"
+#include "third_party/abseil-cpp/absl/types/optional.h"
 #include "url/url_constants.h"
 
 using content::BraveClearBrowsingData;
@@ -182,9 +183,9 @@ class BraveClearDataOnExitTest
                                    uint64_t origin_mask) override {
     remove_data_call_count_++;
 
-    if (expected_remove_mask_ != 0)
+    if (expected_remove_mask_)
       EXPECT_EQ(expected_remove_mask_, remove_mask);
-    if (expected_origin_mask_ != 0)
+    if (expected_origin_mask_)
       EXPECT_EQ(expected_origin_mask_, origin_mask);
   }
 
@@ -192,8 +193,8 @@ class BraveClearDataOnExitTest
   unsigned int browsers_count_ = 1u;
   int remove_data_call_count_ = 0;
   int expected_remove_data_call_count_ = 0;
-  uint64_t expected_remove_mask_ = 0;
-  uint64_t expected_origin_mask_ = 0;
+  absl::optional<uint64_t> expected_remove_mask_;
+  absl::optional<uint64_t> expected_origin_mask_;
 };
 
 IN_PROC_BROWSER_TEST_F(BraveClearDataOnExitTest, NoPrefsSet) {
