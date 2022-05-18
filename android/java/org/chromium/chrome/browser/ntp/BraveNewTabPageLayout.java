@@ -1422,7 +1422,8 @@ public class BraveNewTabPageLayout extends NewTabPageLayout implements Connectio
                 correctPosition(false);
             }
         });
-        NTPUtil.updateOrientedUI(mActivity, this, size, ntpImage, mMvTilesContainerLayout.getHeight());
+        NTPUtil.updateOrientedUI(
+                mActivity, this, size, ntpImage, mMvTilesContainerLayout.getHeight());
 
         ImageView mSponsoredLogo = (ImageView) findViewById(R.id.sponsored_logo);
         FloatingActionButton mSuperReferralLogo = (FloatingActionButton) findViewById(R.id.super_referral_logo);
