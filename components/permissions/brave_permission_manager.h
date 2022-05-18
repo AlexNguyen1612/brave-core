@@ -6,9 +6,9 @@
 #ifndef BRAVE_COMPONENTS_PERMISSIONS_BRAVE_PERMISSION_MANAGER_H_
 #define BRAVE_COMPONENTS_PERMISSIONS_BRAVE_PERMISSION_MANAGER_H_
 
-#include "components/permissions/permission_manager.h"
-
 #include <vector>
+
+#include "components/permissions/permission_manager.h"
 
 namespace permissions {
 
