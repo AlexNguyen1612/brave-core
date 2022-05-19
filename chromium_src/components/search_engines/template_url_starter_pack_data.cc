@@ -4,16 +4,36 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "components/search_engines/template_url_starter_pack_data.h"
+#include "base/strings/strcat.h"
+#include "base/strings/string_util.h"
 
 #define GetStarterPackEngines GetStarterPackEngines_ChromiumImpl
 
 #include "src/components/search_engines/template_url_starter_pack_data.cc"
 #undef GetStarterPackEngines
 
+namespace {
+
+const char kChromeSchema[] = "chrome://";
+const char kBraveSchema[] = "brave://";
+}  // namespace
+
 namespace TemplateURLStarterPackData {
 
 std::vector<std::unique_ptr<TemplateURLData>> GetStarterPackEngines() {
-  return {};  // Do nothing.
+  auto t_urls = GetStarterPackEngines_ChromiumImpl();
+
+  // It is necessary to correct urls for the brave schema
+  for (auto& t_url : t_urls) {
+    base::StringPiece url(t_url->url());
+    if (base::StartsWith(url, kChromeSchema,
+                         base::CompareCase::INSENSITIVE_ASCII)) {
+      t_url->SetURL(base::StrCat(
+          {kBraveSchema, url.substr(std::size(kChromeSchema) - 1)}));
+    }
+  }
+
+  return t_urls;
 }
 
 }  // namespace TemplateURLStarterPackData
