@@ -96,6 +96,7 @@
         <structure type="chrome_scaled_image" name="IDR_PROFILE_AVATAR_89" file="common/avatars/avatar_bonbon_ninja.png" />
 
         <structure type="chrome_scaled_image" name="IDR_BRAVE_SEARCH_LOGO_IN_WEB_DISCOVERY_DIALOG" file="brave/brave_search_logo_in_web_discovery_dialog.png" />
+        <structure type="chrome_scaled_image" name="IDR_BRAVE_SEARCH_LOGO_IN_SEARCH_PROMOTION" file="brave/brave_search_logo_in_search_promotion.png" />
       </if>
     </structures>
   </release>
