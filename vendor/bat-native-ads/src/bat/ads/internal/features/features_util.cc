@@ -9,11 +9,12 @@
 
 #include "bat/ads/internal/account/statement/ad_rewards_features.h"
 #include "bat/ads/internal/base/logging_util.h"
-#include "bat/ads/internal/features/frequency_capping_features.h"
+#include "bat/ads/internal/features/epsilon_greedy_bandit_features.h"
+#include "bat/ads/internal/features/purchase_intent_features.h"
+#include "bat/ads/internal/features/text_classification_features.h"
+#include "bat/ads/internal/serving/eligible_ads/exclusion_rules/exclusion_rule_features.h"
+#include "bat/ads/internal/serving/permission_rules/permission_rule_features.h"
 #include "bat/ads/internal/serving/serving_features.h"
-#include "bat/ads/internal/serving/targeting/models/behavioral/bandits/epsilon_greedy_bandit_features.h"
-#include "bat/ads/internal/serving/targeting/models/behavioral/purchase_intent/purchase_intent_features.h"
-#include "bat/ads/internal/serving/targeting/models/contextual/text_classification/text_classification_features.h"
 #include "bat/ads/internal/user_activity/browsing/user_activity_features.h"
 
 namespace ads {
@@ -35,8 +36,11 @@ void LogFeatures() {
   BLOG(1, "Epsilon greedy bandit feature is "
               << GetStatus(features::IsEpsilonGreedyBanditEnabled()));
 
-  BLOG(1, "Frequency capping feature is "
-              << GetStatus(features::frequency_capping::IsEnabled()));
+  BLOG(1, "Permission rule feature is "
+              << GetStatus(features::permission_rules::IsEnabled()));
+
+  BLOG(1, "Exclusion rule feature is "
+              << GetStatus(features::exclusion_rules::IsEnabled()));
 
   BLOG(1, "Purchase intent feature is "
               << GetStatus(features::IsPurchaseIntentEnabled()));

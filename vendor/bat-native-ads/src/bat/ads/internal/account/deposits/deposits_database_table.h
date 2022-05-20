@@ -10,7 +10,7 @@
 
 #include "bat/ads/ads_client_aliases.h"
 #include "bat/ads/internal/account/deposits/deposits_database_table_aliases.h"
-#include "bat/ads/internal/ad_server/catalog/bundle/creative_ad_info_aliases.h"
+#include "bat/ads/internal/creatives/creative_ad_info_aliases.h"
 #include "bat/ads/internal/database/database_table_interface.h"
 #include "bat/ads/public/interfaces/ads.mojom.h"
 

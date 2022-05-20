@@ -11,9 +11,9 @@
 #include <utility>
 
 #include "bat/ads/internal/deprecated/client/client.h"
-#include "bat/ads/internal/serving/targeting/models/behavioral/purchase_intent/purchase_intent_features.h"
+#include "bat/ads/internal/features/purchase_intent_features.h"
+#include "bat/ads/internal/serving/targeting/models/behavioral/purchase_intent/purchase_intent_aliases.h"
 #include "bat/ads/internal/serving/targeting/models/behavioral/purchase_intent/purchase_intent_model_constants.h"
-#include "bat/ads/internal/targeting/data_types/behavioral/purchase_intent/purchase_intent_aliases.h"
 
 namespace ads {
 namespace targeting {
