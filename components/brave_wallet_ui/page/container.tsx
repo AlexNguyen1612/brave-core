@@ -29,8 +29,7 @@ import {
   WalletState
 } from '../constants/types'
 import BuySendSwap from '../stories/screens/buy-send-swap'
-// import Onboarding from '../stories/screens/onboarding'
-import { OnboardingWelcome } from './screens/onboarding'
+import { OnboardingWelcome } from './screens/onboarding/welcome/onboarding-welcome'
 import { OnboardingCreatePassword } from './screens/onboarding/create-password/onboarding-create-password'
 import BackupWallet from '../stories/screens/backup-wallet'
 import { SweepstakesBanner } from '../components/desktop/sweepstakes-banner'
