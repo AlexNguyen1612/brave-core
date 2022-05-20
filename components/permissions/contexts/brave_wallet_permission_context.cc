@@ -153,12 +153,13 @@ bool BraveWalletPermissionContext::HasRequestsInProgress(
 
 // static
 void BraveWalletPermissionContext::RequestPermissions(
-    ContentSettingsType content_settings_type,
+    blink::PermissionType permission,
     content::RenderFrameHost* rfh,
     const std::vector<std::string>& addresses,
-    base::OnceCallback<void(const std::vector<ContentSetting>&)> callback) {
+    base::OnceCallback<void(const std::vector<blink::mojom::PermissionStatus>&)>
+        callback) {
   if (!rfh) {
-    std::move(callback).Run(std::vector<ContentSetting>());
+    std::move(callback).Run(std::vector<blink::mojom::PermissionStatus>());
     return;
   }
 
@@ -166,7 +167,7 @@ void BraveWalletPermissionContext::RequestPermissions(
   // Fail the request came from 3p origin.
   if (web_contents->GetMainFrame()->GetLastCommittedOrigin() !=
       rfh->GetLastCommittedOrigin()) {
-    std::move(callback).Run(std::vector<ContentSetting>());
+    std::move(callback).Run(std::vector<blink::mojom::PermissionStatus>());
     return;
   }
 
@@ -175,7 +176,7 @@ void BraveWalletPermissionContext::RequestPermissions(
           web_contents->GetBrowserContext()));
 
   if (!permission_manager) {
-    std::move(callback).Run(std::vector<ContentSetting>());
+    std::move(callback).Run(std::vector<blink::mojom::PermissionStatus>());
     return;
   }
 
@@ -189,12 +190,11 @@ void BraveWalletPermissionContext::RequestPermissions(
   url::Origin origin;
   if (!brave_wallet::GetConcatOriginFromWalletAddresses(
           rfh->GetLastCommittedOrigin(), addresses, &origin)) {
-    std::move(callback).Run(std::vector<ContentSetting>());
+    std::move(callback).Run(std::vector<blink::mojom::PermissionStatus>());
     return;
   }
 
-  std::vector<ContentSettingsType> types(addresses.size(),
-                                         content_settings_type);
+  std::vector<blink::PermissionType> types(addresses.size(), permission);
   permission_manager->RequestPermissionsDeprecated(
       types, rfh, origin.GetURL(), rfh->HasTransientUserActivation(),
       std::move(callback));
@@ -202,7 +202,7 @@ void BraveWalletPermissionContext::RequestPermissions(
 
 // static
 void BraveWalletPermissionContext::GetAllowedAccounts(
-    ContentSettingsType content_settings_type,
+    blink::PermissionType permission,
     content::RenderFrameHost* rfh,
     const std::vector<std::string>& addresses,
     base::OnceCallback<void(bool, const std::vector<std::string>&)> callback) {
@@ -238,13 +238,13 @@ void BraveWalletPermissionContext::GetAllowedAccounts(
   for (const auto& address : addresses) {
     url::Origin sub_request_origin;
     bool success = brave_wallet::GetSubRequestOrigin(
-        ContentSettingsTypeToRequestType(content_settings_type), origin,
-        address, &sub_request_origin);
+        ContentSettingsTypeToRequestType(
+            PermissionUtil::PermissionTypeToContentSettingSafe(permission)),
+        origin, address, &sub_request_origin);
     if (success) {
-      PermissionResult result =
-          permission_manager->GetPermissionStatusForFrameDeprecated(
-              content_settings_type, rfh, sub_request_origin.GetURL());
-      if (result.content_setting == CONTENT_SETTING_ALLOW) {
+      auto result = permission_manager->GetPermissionStatusForFrame(
+          permission, rfh, sub_request_origin.GetURL());
+      if (result == blink::mojom::PermissionStatus::GRANTED) {
         allowed_accounts.push_back(address);
       }
     }

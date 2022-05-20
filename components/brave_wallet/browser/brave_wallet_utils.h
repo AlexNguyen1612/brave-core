@@ -14,6 +14,7 @@
 #include "brave/components/brave_wallet/common/brave_wallet_types.h"
 #include "components/content_settings/core/common/content_settings_types.h"
 #include "third_party/abseil-cpp/absl/types/optional.h"
+#include "third_party/blink/public/common/permissions/permission_utils.h"
 
 class PrefService;
 namespace base {
@@ -146,6 +147,9 @@ std::string eTLDPlusOne(const url::Origin& origin);
 mojom::OriginInfoPtr MakeOriginInfo(const url::Origin& origin);
 
 absl::optional<ContentSettingsType> CoinTypeToContentSettingsType(
+    mojom::CoinType coin_type);
+
+absl::optional<blink::PermissionType> CoinTypeToPermissionType(
     mojom::CoinType coin_type);
 
 }  // namespace brave_wallet

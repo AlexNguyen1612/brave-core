@@ -45,21 +45,34 @@ void BravePermissionManager::ResetPermissionViaContentSetting(
 }
 
 void BravePermissionManager::RequestPermissionsDeprecated(
-    const std::vector<ContentSettingsType>& permissions,
+    const std::vector<blink::PermissionType>& permissions,
     content::RenderFrameHost* render_frame_host,
     const GURL& requesting_origin,
     bool user_gesture,
-    base::OnceCallback<void(const std::vector<ContentSetting>&)> callback) {
+    base::OnceCallback<void(const std::vector<blink::mojom::PermissionStatus>&)>
+        callback) {
   RequestPermissions(permissions, render_frame_host, requesting_origin,
                      user_gesture, std::move(callback));
 }
 
-PermissionResult BravePermissionManager::GetPermissionStatusForFrameDeprecated(
-    ContentSettingsType permission,
+blink::mojom::PermissionStatus
+BravePermissionManager::GetPermissionStatusForFrame(
+    blink::PermissionType permission,
     content::RenderFrameHost* render_frame_host,
     const GURL& requesting_origin) {
-  return GetPermissionStatusForFrame(permission, render_frame_host,
-                                     requesting_origin);
+  DCHECK_CURRENTLY_ON(content::BrowserThread::UI);
+  ContentSettingsType type =
+      PermissionUtil::PermissionTypeToContentSetting(permission);
+
+  const GURL embedding_origin =
+      GetEmbeddingOriginInternal(render_frame_host, requesting_origin);
+
+  PermissionResult result = GetPermissionStatusHelper(
+      type,
+      /*render_process_host=*/nullptr, render_frame_host, requesting_origin,
+      embedding_origin);
+
+  return ContentSettingToPermissionStatusInternal(result.content_setting);
 }
 
 PermissionResult BravePermissionManager::GetPermissionStatusDeprecated(

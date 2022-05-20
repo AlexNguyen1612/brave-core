@@ -30,13 +30,15 @@ class BravePermissionManager : public PermissionManager {
                                         const GURL& embedding_origin);
 
   void RequestPermissionsDeprecated(
-      const std::vector<ContentSettingsType>& permissions,
+      const std::vector<blink::PermissionType>& permissions,
       content::RenderFrameHost* render_frame_host,
       const GURL& requesting_origin,
       bool user_gesture,
-      base::OnceCallback<void(const std::vector<ContentSetting>&)> callback);
-  PermissionResult GetPermissionStatusForFrameDeprecated(
-      ContentSettingsType permission,
+      base::OnceCallback<
+          void(const std::vector<blink::mojom::PermissionStatus>&)> callback);
+
+  blink::mojom::PermissionStatus GetPermissionStatusForFrame(
+      blink::PermissionType permission,
       content::RenderFrameHost* render_frame_host,
       const GURL& requesting_origin);
 
