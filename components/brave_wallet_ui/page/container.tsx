@@ -43,6 +43,7 @@ import {
 // Hooks
 import { useAssets } from '../common/hooks'
 import OnboardingRecoveryPhrase from './screens/onboarding/backup-recovery-phrase/onboarding-backup-recovery-phrase'
+import OnboardingVerifyRecoveryPhrase from './screens/onboarding/verify-recovery-phrase/verify-recovery-phrase'
 
 type Props = {
   wallet: WalletState
@@ -276,14 +277,21 @@ function Container (props: Props) {
       WalletRoutes.AddAccountModal,
       WalletRoutes.AddAssetModal,
       WalletRoutes.Portfolio,
+      WalletRoutes.Onboarding,
+      WalletRoutes.OnboardingWelcome,
       WalletRoutes.OnboardingCreatePassword,
-      WalletRoutes.OnboardingExplainRecoveryPhrase,
+      ...(recoveryPhrase ? [WalletRoutes.OnboardingExplainRecoveryPhrase] : []),
+      ...(recoveryPhrase ? [WalletRoutes.OnboardingBackupRecoveryPhrase] : []),
+      ...(recoveryPhrase ? [WalletRoutes.OnboardingVerifyRecoveryPhrase] : []),
+      WalletRoutes.OnboardingComplete,
       ...acceptedPortfolioRoutes,
       ...acceptedAccountRoutes
     ]
 
     if (allAcceptedRoutes.includes(walletLocation)) {
       setSessionRoute(walletLocation)
+      history.push(walletLocation)
+      return
     }
 
     if (!hasInitialized) {
@@ -297,7 +305,6 @@ function Container (props: Props) {
     ) {
       checkWalletsToImport()
       history.push(WalletRoutes.Onboarding)
-      // If wallet is created will Route to login
     } else if (
       isWalletLocked &&
       walletLocation !== WalletRoutes.Restore &&
@@ -336,7 +343,10 @@ function Container (props: Props) {
     }
   }, [hasIncorrectPassword])
 
-  const hideMainComponents = (isWalletCreated && !setupStillInProgress) && !isWalletLocked && walletLocation !== WalletRoutes.Backup
+  const hideMainComponents = (isWalletCreated && !setupStillInProgress) && !isWalletLocked &&
+    walletLocation !== WalletRoutes.Backup &&
+    walletLocation !== WalletRoutes.OnboardingBackupRecoveryPhrase &&
+    walletLocation !== WalletRoutes.OnboardingVerifyRecoveryPhrase
 
   return (
     <WalletPageLayout>
@@ -354,10 +364,6 @@ function Container (props: Props) {
               </OnboardingWrapper>
             }
           </Route>
-          <Route path={WalletRoutes.Onboarding} exact={true}>
-            {/* <Onboarding /> */}
-            <OnboardingWelcome />
-          </Route>
 
           <Route path={WalletRoutes.OnboardingCreatePassword} exact={true}>
             <OnboardingCreatePassword />
@@ -365,6 +371,15 @@ function Container (props: Props) {
 
           <Route path={WalletRoutes.OnboardingExplainRecoveryPhrase} exact={true}>
             <OnboardingRecoveryPhrase />
+          </Route>
+
+          <Route path={WalletRoutes.OnboardingVerifyRecoveryPhrase} exact={true}>
+            <OnboardingVerifyRecoveryPhrase />
+          </Route>
+
+          <Route path={WalletRoutes.Onboarding} exact={true}>
+            {/* <Onboarding /> */}
+            <OnboardingWelcome />
           </Route>
 
           <Route path={WalletRoutes.Unlock} exact={true}>
