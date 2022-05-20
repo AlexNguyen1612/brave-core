@@ -186,6 +186,7 @@ handler.on(WalletActions.selectNetwork.getType(), async (store: Store, payload: 
 
 handler.on(WalletActions.chainChangedEvent.getType(), async (store: Store, payload: ChainChangedEventPayloadType) => {
   await updateCoinAccountNetworkInfo(store, payload.coin)
+  await refreshWalletInfo(store)
 })
 
 handler.on(WalletActions.selectAccount.getType(), async (store: Store, payload: WalletAccountType) => {
