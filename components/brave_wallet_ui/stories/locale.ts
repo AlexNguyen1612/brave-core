@@ -495,5 +495,25 @@ provideStrings({
 
   // Network Filter
   braveWalletNetworkFilterAll: 'All Networks',
-  braveWalletNetworkFilterSecondary: 'Secondary Networks'
+  braveWalletNetworkFilterSecondary: 'Secondary Networks',
+
+  // Transaction post-confirmation
+
+  // Failed
+  braveWalletTransactionFailedHeaderTitle: '$1 was returned to your wallet',
+  braveWalletTransactionFailedTitle: 'Transaction Failed',
+  braveWalletTransactionFailedDescription: 'Transaction was failed due to a large price movement. Increase slippage tolerance to succeed at a larger price movement.',
+  braveWalletTransactionFailedSwapNextCTA: 'New trade',
+  braveWalletTransactionFailedNextCTA: 'New transaction',
+  braveWalletTransactionFailedViewErrorCTA: 'View error',
+  braveWalletTransactionFailedReceiptCTA: 'Receipt',
+  braveWalletTransactionFailedModalTitle: 'Error code',
+  braveWalletTransactionFailedModalClose: 'Close',
+
+  // Complete
+  braveWalletTransactionCompleteSwapHeaderTitle: 'Swapped $1 to $2',
+  braveWalletTransactionCompleteTitle: 'Transaction Complete!',
+  braveWalletTransactionCompleteSwapDescription: '$1 has been successfully deposited into your wallet.',
+  braveWalletTransactionCompleteNextCTA: 'Done',
+  braveWalletTransactionCompleteReceiptCTA: 'Receipt'
 })

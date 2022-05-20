@@ -29,6 +29,11 @@ import {
   CreateAccountTab
 } from '../components/buy-send-swap'
 import {
+  TransactionFailed,
+  TransactionComplete
+} from '../components/extension/post-confirmation'
+
+import {
   BraveWallet,
   WalletAccountType,
   PanelTypes,
@@ -68,6 +73,7 @@ import { createPageReducer } from '../page/reducers/page_reducer'
 import { mockPageState } from './mock-data/mock-page-state'
 import { mockWalletState } from './mock-data/mock-wallet-state'
 import { mockSendCryptoState } from './mock-data/send-crypto-state'
+
 export default {
   title: 'Wallet/Extension/Panels',
   parameters: {
@@ -831,14 +837,59 @@ _RecentTransaction.story = {
 
 export const _CreateAccount = () => {
   return (
-    <StyledCreateAccountPanel>
-      <CreateAccountTab
-        prevNetwork={mockNetworks[0]}
-      />
-    </StyledCreateAccountPanel>
+    <Provider store={createStoreWithCustomState(mockCustomStoreState)}>
+      <StyledCreateAccountPanel>
+        <CreateAccountTab
+          prevNetwork={mockNetworks[0]}
+        />
+      </StyledCreateAccountPanel>
+    </Provider>
   )
 }
 
 _CreateAccount.story = {
   name: 'Create Account Tab'
+}
+
+export const _TransactionFailed = () => {
+  return (
+    <Provider store={createStoreWithCustomState(mockCustomStoreState)}>
+      <StyledExtensionWrapper>
+        <TransactionFailed
+          headerTitle='0.1 ETH was returned to your wallet'
+          isPrimaryCTADisabled={false}
+          errorDetailTitle='Try raising slippage'
+          errorDetailContent='[ethjs-query] while formatting outputs from RPC ‘{“value”: {“code”:-32603,”data”: {“code”-32603,”message”:”Internal error”}}}’'
+          onClose={() => alert('Close panel screen')}
+          onClickPrimaryCTA={() => alert('Clicked primary CTA')}
+          onClickSecondaryCTA={() => alert('Clicked secondary CTA')}
+        />
+      </StyledExtensionWrapper>
+    </Provider>
+  )
+}
+
+_TransactionFailed.story = {
+  name: 'Transaction Failed'
+}
+
+export const _TransactionComplete = () => {
+  return (
+    <Provider store={createStoreWithCustomState(mockCustomStoreState)}>
+      <StyledExtensionWrapper>
+        <TransactionComplete
+          headerTitle='Swapped 0.01 ETH to 32.2583 USDC'
+          description='32.2583 USDC has been successfully deposited into your wallet.'
+          isPrimaryCTADisabled={false}
+          onClose={() => alert('Close panel screen')}
+          onClickPrimaryCTA={() => alert('Clicked primary CTA')}
+          onClickSecondaryCTA={() => alert('Clicked secondary CTA')}
+        />
+      </StyledExtensionWrapper>
+    </Provider>
+  )
+}
+
+_TransactionComplete.story = {
+  name: 'Transaction Complete'
 }
